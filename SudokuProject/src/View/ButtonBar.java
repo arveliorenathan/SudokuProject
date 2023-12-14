@@ -3,6 +3,7 @@ package View;
 import Controller.SudokuSolver;
 import Controller.Timer;
 import javax.swing.*;
+import java.awt.*;
 
 public class ButtonBar extends JPanel {
 
@@ -32,6 +33,7 @@ public class ButtonBar extends JPanel {
                             for (int j = 0; j < board.size; j++) {
                                 String text = Integer.toString(board.temp[i][j]);
                                 board.cell[i][j].setText(text);
+                                board.cell[i][j].setEditable(false);
                             }
                         }
                     }

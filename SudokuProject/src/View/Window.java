@@ -3,6 +3,8 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
+import static Controller.SudokuSolver.*;
+
 public class Window extends JFrame {
     private  GameBoard board;
     private ButtonBar button;
@@ -10,6 +12,7 @@ public class Window extends JFrame {
         board = new GameBoard(); 
         button = new ButtonBar(board);
         generateSudoku();
+        solvingBegin(board.temp);
     }
 
     public void generateSudoku(){

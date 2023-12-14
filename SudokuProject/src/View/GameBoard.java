@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import Controller.Timer;
 import java.awt.event.MouseEvent;
+
+import static Controller.SudokuSolver.*;
 
 public class GameBoard extends JPanel {
     public static final int size = 6;
@@ -30,12 +33,14 @@ public class GameBoard extends JPanel {
             for (int j = 0; j < size; j++) {
                 cell[i][j] = new JTextField();
                 cell[i][j].setHorizontalAlignment(JTextField.CENTER);
+                cell[i][j].setForeground(Color.yellow);
+                cell[i][j].setBackground(Color.black);
                 add(cell[i][j]);
                 cell[i][j].addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyReleased(KeyEvent e) {
                         JTextField source = (JTextField) e.getSource();
-                        System.out.println("dggd berfpr " + timerCheck);
+                        System.out.println("TimeCheck " + timerCheck);
                         if (timerCheck == 0) {
                             timer.start();
                             timerCheck = 1;
@@ -45,10 +50,18 @@ public class GameBoard extends JPanel {
                         for (int row = 0; row < size; row++) {
                             for (int col = 0; col < size; col++) {
                                 if (cell[row][col] == source) {
-                                    System.out.println(
-                                            "User input at row " + row + ", column " + col + ": " + source.getText());
+                                    System.out.println("User input at row " + row + ", column " + col + ": " + source.getText());
                                     cell[row][col].setText(source.getText());
                                     temp[row][col] = Integer.parseInt(source.getText());
+                                    if(checkBoard(row, col, Integer.parseInt(source.getText()))) {
+                                        source.setForeground(Color.green);
+                                    }
+                                    else {
+                                        source.setForeground(Color.red);
+                                    }
+                                    if (checkBoard(temp)) {
+                                        // game tamat
+                                    }
                                     for (int i = 0; i < size; i++) {
                                         for (int j = 0; j < size; j++) {
                                             if (temp[i][j] == 0) {
@@ -69,16 +82,16 @@ public class GameBoard extends JPanel {
                     }
                 });
                 if ((i + 1) % 3 == 0 && (j + 1) % 3 == 0) {
-                    Border border = BorderFactory.createMatteBorder(1, 1, 4, 4, Color.BLACK);
+                    Border border = BorderFactory.createMatteBorder(1, 1, 4, 4, Color.WHITE);
                     cell[i][j].setBorder(border);
                 } else if ((i + 1) % 3 == 0) {
-                    Border bottom = BorderFactory.createMatteBorder(1, 1, 3, 1, Color.BLACK);
+                    Border bottom = BorderFactory.createMatteBorder(1, 1, 3, 1, Color.WHITE);
                     cell[i][j].setBorder(bottom);
                 } else if ((j + 1) % 3 == 0) {
-                    Border border = BorderFactory.createMatteBorder(1, 1, 1, 3, Color.BLACK);
+                    Border border = BorderFactory.createMatteBorder(1, 1, 1, 3, Color.WHITE);
                     cell[i][j].setBorder(border);
                 } else {
-                    Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK);
+                    Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.WHITE);
                     cell[i][j].setBorder(border);
                 }
 
@@ -116,6 +129,9 @@ public class GameBoard extends JPanel {
             cell[randomRow][randomCol].setText(String.valueOf(randomValue));
             temp[randomRow][randomCol] = randomValue;
             cell[randomRow][randomCol].setEditable(false);
+            cell[randomRow][randomCol].setForeground(Color.yellow);
+
+
         }
     }
 
