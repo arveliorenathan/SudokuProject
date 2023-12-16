@@ -3,17 +3,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Timer {
-    private int seconds;
+    private static int seconds;
     private JLabel label = new JLabel();
-    private int minutesPart;
-    private int secondsPart;
+    private static int minutesPart;
+    private static int secondsPart;
     private String time;
     private boolean running = true;
     private Thread thread;
 
     public Timer() {
         this.seconds = 0;
-        Font poppinsFontBold = new Font("Serif", Font.BOLD, 18);
+        Font poppinsFontBold = new Font("Poppins", Font.BOLD, 18);
         this.label.setFont(poppinsFontBold);
         this.label.setForeground(Color.decode("#4467df"));
         updateTime();
@@ -24,10 +24,6 @@ public class Timer {
         this.minutesPart = seconds / 60;
         this.secondsPart = seconds % 60;
         this.time = String.format("%02d:%02d", minutesPart, secondsPart);
-    }
-
-    public String getTime() {
-        return this.time;
     }
 
     public void start() {
@@ -54,6 +50,13 @@ public class Timer {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static int getMinutesPart() {
+        return minutesPart;
+    }
+    public static int getSeconds() {
+        return secondsPart;
     }
 
     public JLabel getLabel() {

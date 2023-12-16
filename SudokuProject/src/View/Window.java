@@ -2,15 +2,14 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-
 import static Controller.SudokuSolver.*;
 
 public class Window extends JFrame {
-    private  GameBoard board;
+    private GameBoard board;
     private ButtonBar button;
     public Window(){
         board = new GameBoard(); 
-        button = new ButtonBar(board);
+        button = new ButtonBar(board,this);
         generateSudoku();
         solvingBegin(board.temp);
     }
@@ -18,7 +17,7 @@ public class Window extends JFrame {
     public void generateSudoku(){
         add(board, BorderLayout.CENTER);
         add(button, BorderLayout.PAGE_END);
-        setTitle("Sudoku Project");
+        setTitle("Game Sudoku");
         setSize(450,550);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

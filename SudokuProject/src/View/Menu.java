@@ -4,17 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Menu extends JFrame {
-    JFrame frame = new JFrame();
     public Menu(){
         JPanel panel = new JPanel();
-        frame.setSize(400,370);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.add(panel);
+        setSize(400,370);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        add(panel);
 
         panel.setLayout(null);
+        panel.setBackground(Color.black);
 
-        JLabel menu = new JLabel("MENU GAME");
-        menu.setBounds(100, 10, 100, 30);
+        JLabel menu = new JLabel("WELCOME TO SUDOKU");
+        menu.setBounds(130, 10, 150, 30);
+        menu.setForeground(Color.yellow);
         panel.add(menu);
 
         JButton start = new JButton("START GAME");
@@ -29,30 +30,31 @@ public class Menu extends JFrame {
         logout.setBounds(100, 120, 200, 30);
         panel.add(logout);
 
-        frame.setVisible(true);
+        setVisible(true);
 
         start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StartActionPerformed(evt);
+                dispose();
+                new Window();
             }
         });
+
+        leaderboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dispose();
+                new Highscore();
+            }
+        });
+
 
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LogoutActionPerformed(evt);
+                dispose();
+                Login login = new Login();
             }
         });
     }
 
-    private void StartActionPerformed(java.awt.event.ActionEvent evt){
-        frame.dispose();
-        Window window = new Window();
-    }
-
-    private void LogoutActionPerformed(java.awt.event.ActionEvent evt){
-        frame.dispose();
-        Login login = new Login();
-    }
 
      public static void main(String[] args) {
         new Menu();

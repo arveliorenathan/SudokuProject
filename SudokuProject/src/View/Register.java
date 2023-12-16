@@ -1,16 +1,16 @@
 package View;
 
+import Controller.Database;
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.SQLException;
 
 public class Register {
     JTextField username;
     JPasswordField password;
     JPasswordField confirmPassword;
     JFrame frame = new JFrame();
+    Database database = new Database();
     public Register(){
         JPanel panel = new JPanel();
         frame.setSize(400, 370);
@@ -74,7 +74,29 @@ public class Register {
 
         registerBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegisterBtnActionPerformed(evt);
+                String usernameText = username.getText();
+                String passwordText = new String(password.getPassword());
+                String confirmPasswordText = new String(confirmPassword.getPassword());
+                if (passwordText.equals(confirmPasswordText)){
+                    if (!usernameText.isEmpty() && !passwordText.isEmpty()){
+                        try {
+                            if (Database.register(usernameText, passwordText) == true) {
+                                frame.dispose();
+                                new Login();
+                            }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Please Input Username and Password", "Register Failed", JOptionPane.ERROR_MESSAGE);
+                        cleanForm();
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Password Do Not Match", "Register Failed", JOptionPane.ERROR_MESSAGE);
+                    cleanForm();
+                }
             }
         });
 
@@ -90,31 +112,10 @@ public class Register {
         Login login = new Login();
     }
 
-    private void RegisterBtnActionPerformed(java.awt.event.ActionEvent evt){
-        String usernameText = username.getText();
-        String passwordText = password.getText();
-        String confirmPasswordText = confirmPassword.getText();
-        if (password.equals(confirmPasswordText)){
-            if (!usernameText.isEmpty() && !passwordText.isEmpty()){
-
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Please Input Username and Password", "Register Failed", JOptionPane.ERROR_MESSAGE);
-                username.setText("");
-                password.setText("");
-                confirmPassword.setText("");
-            }
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Password Do Not Match", "Register Failed", JOptionPane.ERROR_MESSAGE);
-            username.setText("");
-            password.setText("");
-            confirmPassword.setText("");
-        }
-    }
-
-    public static void main(String[] args) {
-        Register register = new Register();
+    private void cleanForm(){
+        username.setText("");
+        password.setText("");
+        confirmPassword.setText("");
     }
 
 }

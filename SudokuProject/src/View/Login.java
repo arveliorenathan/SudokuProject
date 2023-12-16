@@ -1,5 +1,6 @@
 package View;
 
+import Controller.Database;
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +10,7 @@ public class Login{
     JFrame frame = new JFrame();
 
     public Login(){
+        new Database();
         JPanel panel = new JPanel();
         frame.setSize(400,350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,21 +80,17 @@ public class Login{
         String usernameText = username.getText();
         String passwordText = password.getText();
         if (!usernameText.isEmpty() && !passwordText.isEmpty()){
-            if (usernameText.equals("arvelio") && passwordText.equals("arvelio")){
-                JOptionPane.showMessageDialog(null, "Selamat Anda Berhasil Login", "Login Succsess", JOptionPane.INFORMATION_MESSAGE);
+            if (Database.loginUser(usernameText, passwordText)){
                 frame.dispose();
                 new Menu();
             }
             else {
-                JOptionPane.showMessageDialog(null, "Username or Password Anda Wrong", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                username.setText("");
-                username.setText("");
+                cleanForm();
             }
         }
         else {
             JOptionPane.showMessageDialog(null, "Username or Password Wrong", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            username.setText("");
-            password.setText("");
+            cleanForm();
         }
     }
 
@@ -106,7 +104,4 @@ public class Login{
         new Register();
     }
 
-    public static void main(String[] args) {
-        Login login = new Login();
-    }
 }

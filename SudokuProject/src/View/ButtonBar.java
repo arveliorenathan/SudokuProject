@@ -9,20 +9,35 @@ public class ButtonBar extends JPanel {
 
     SudokuSolver solver = new SudokuSolver();
     GameBoard board;
+    JFrame parentFrame;
 
-    ButtonBar(GameBoard board) {
+    ButtonBar(GameBoard board, JFrame parentFrame) {
+
+        this.parentFrame=parentFrame;
+
+        System.out.println(parentFrame);
         this.board = board;
         generate();
     }
 
     private void generate() {
         JButton reset = new JButton("Reset");
+        reset.setBackground(Color.yellow);
+        reset.setForeground(Color.black);
+        reset.setFont(new Font("Poppin", Font.BOLD, 14));
         add(reset);
         JButton solve = new JButton("Show Answer");
+        solve.setBackground(Color.yellow);
+        solve.setForeground(Color.black);
+        solve.setFont(new Font("Poppin", Font.BOLD, 14));
         add(solve);
         JButton exit = new JButton("Exit");
+        exit.setBackground(Color.yellow);
+        exit.setForeground(Color.black);
+        exit.setFont(new Font("Poppin", Font.BOLD, 14));
         add(exit);
         add(board.timer.getLabel());
+        setBackground(Color.black);
 
         solve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -39,10 +54,12 @@ public class ButtonBar extends JPanel {
                     }
                 });
                 board.timer.stopTimer();
-                board.timer.reset();
+                System.out.println(Timer.getMinutesPart() + " Menit " + Timer.getSeconds() + " Detik");
                 board.timerCheck = 0;
             }
         });
+
+
         
         reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,31 +74,26 @@ public class ButtonBar extends JPanel {
         
                 // Generate a new random Sudoku puzzle
                 board.randomSudoku();
-                board.timer.stopTimer();
                 board.timer.reset();
                 board.timerCheck = 0;
+                board.timer.start();
         
                 // Redraw the board
                 board.repaint();
             }
         });
 
-
-        
         exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExitActionPerformed(evt);
+                board.timer.stopTimer();
+                board.timer.reset();
+                if(parentFrame!=null){
+                    parentFrame.dispose();
+                }
+                new Menu();
             }
         });
     }
 
-    private void SolveActionPerformed(java.awt.event.ActionEvent evt) {
-        SudokuSolver solve = new SudokuSolver();
-
-    }
-
-    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {
-        Menu menu = new Menu();
-    }
 
 }
