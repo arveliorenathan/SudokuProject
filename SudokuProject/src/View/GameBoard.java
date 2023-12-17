@@ -7,16 +7,14 @@ import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.border.Border;
-import javax.xml.crypto.Data;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import Controller.Database;
 import Controller.Timer;
 import static Controller.SudokuSolver.*;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class GameBoard extends JPanel {
+public class GameBoard extends JPanel implements RandomSudoku{
     public static final int size = 6;
     JTextField[][] cell;
     int[][] temp = new int[size][size];

@@ -1,7 +1,6 @@
 package Controller;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class Database {
@@ -17,7 +16,7 @@ public class Database {
             String password = "";
             connection = DriverManager.getConnection(url, username, password);
             statement = connection.createStatement();
-            System.out.println("Koneksi sukses!");
+            System.out.println("Connection Success!");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -25,10 +24,10 @@ public class Database {
 
     }
 
-    public static void setId_user(String id_user){
+    public static void setUserId(String id_user){
         Database.id_user = id_user;
     }
-    public static String getId_user(){
+    public static String getUserId(){
         return id_user;
     }
 
@@ -41,14 +40,14 @@ public class Database {
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Registrasi Succsess", "Silahkan Login", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registration Success", "Please Login", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             } else {
                 return false;
             }
         }
         catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "Username Anda Sudah Terdaftar", "Registrasi Gagal", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Username Already Exist", "Registration Failed", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -64,12 +63,12 @@ public class Database {
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()){
-                setId_user(rs.getString("id_user"));
+                setUserId(rs.getString("id_user"));
                 String passDB = rs.getString("password");
 
                 if(password.equals(passDB)){
-                    System.out.println("Login Succes");
-                    JOptionPane.showMessageDialog(null,"login succes");
+                    System.out.println("Login Success");
+                    JOptionPane.showMessageDialog(null,"login Success");
                     return true;
                 } else {
                     System.out.println("Login Failed");
@@ -90,7 +89,7 @@ public class Database {
         String checkQuery = "SELECT menit, detik FROM score WHERE id_user = ?";
 
         try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
-            checkStatement.setString(1, getId_user());
+            checkStatement.setString(1, getUserId());
             ResultSet rs = checkStatement.executeQuery();
 
             if (rs.next()) {
@@ -99,7 +98,7 @@ public class Database {
                 try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                     updateStatement.setInt(1, minute);
                     updateStatement.setInt(2, second);
-                    updateStatement.setString(3, getId_user());
+                    updateStatement.setString(3, getUserId());
 
                     return updateStatement.executeUpdate();
                 }
@@ -107,7 +106,7 @@ public class Database {
                 // Jika belum ada, lakukan insert
                 updateQuery = "INSERT INTO score (id_user, menit, detik) VALUES (?, ?, ?)";
                 try (PreparedStatement insertStatement = connection.prepareStatement(updateQuery)) {
-                    insertStatement.setString(1, getId_user());
+                    insertStatement.setString(1, getUserId());
                     insertStatement.setInt(2, minute);
                     insertStatement.setInt(3, second);
 
