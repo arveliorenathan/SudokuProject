@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class Register {
+public class Register extends Cleaner{
     JTextField username;
     JPasswordField password;
     JPasswordField confirmPassword;
@@ -112,7 +112,7 @@ public class Register {
         Login login = new Login();
     }
 
-    private void cleanForm(){
+    public void cleanForm(){
         username.setText("");
         password.setText("");
         confirmPassword.setText("");

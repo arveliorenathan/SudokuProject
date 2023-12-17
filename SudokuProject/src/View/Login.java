@@ -4,7 +4,7 @@ import Controller.Database;
 import javax.swing.*;
 import java.awt.*;
 
-public class Login{
+public class Login extends Cleaner{
     JTextField username;
     JTextField password;
     JFrame frame = new JFrame();
@@ -94,7 +94,7 @@ public class Login{
         }
     }
 
-    private void cleanForm(){
+    public void cleanForm(){
         username.setText("");
         password.setText("");
     }
